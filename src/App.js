@@ -47,6 +47,7 @@ class App extends Component {
         }))
         .catch(err => console.err(err));
 
+        // Lakes photo
         axios.get(`https://www.flickr.com/services/rest/?method=flickr.photos.search&api_key=${apiKey}&tags=lakes&per_page=24&extras=url_o&format=json&nojsoncallback=1`)
         .then(response => this.setState({
           photoLake: response.data.photos.photo,
@@ -65,8 +66,10 @@ class App extends Component {
     return(
       <div className="container">
         <BrowserRouter>
-          <Search />
+          <Search callApi={this.handleApiCall} history={this.props.history}/>
           <Nav />
+
+          {/* Routes */}
           <Route exact path="/"> {<Redirect to="/sunset" />} </Route>
           <Route path="/sunset" component={() => 
             <Gallery photos={this.state.photoSunset} />
@@ -76,6 +79,9 @@ class App extends Component {
           }></Route>
           <Route path="/lake" component={() => 
             <Gallery photos={this.state.photoLake} />
+          }></Route>
+          <Route path="/search/:query" component={() => 
+            <Gallery photos={this.state.photos} />
           }></Route>
         </BrowserRouter>
       </div>

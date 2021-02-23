@@ -12,11 +12,17 @@ class Search extends Component {
         query: e.target.value
       })
     }
+    this.makeApiCall = (e) => {
+      e.preventDefault();
+      let path = `/search/${this.state.query}`
+      this.props.callApi(this.state.query);
+      this.props.history.push(path);
+    }
   }
 
   render() {
     return (
-      <form className="search-form" >
+      <form className="search-form" onSubmit={this.makeApiCall}>
         <input type="text" placeholder="Search" onChange={this.handleUserSearch}></input>
         <button type="submit">
           <svg fill="#fff" height="24" viewBox="0 0 23 23" width="24" xmlns="http://www.w3.org/2000/svg">
