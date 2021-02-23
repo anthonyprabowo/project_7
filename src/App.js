@@ -1,5 +1,6 @@
 import logo from './logo.svg';
-import './App.css';
+import './css/index.css';
+import apiKey from './config';
 
 function App() {
   return (
