@@ -35,8 +35,7 @@ class App extends Component {
         axios.get(`https://www.flickr.com/services/rest/?method=flickr.photos.search&api_key=${apiKey}&tags=${query}&per_page=24&extras=url_o&format=json&nojsoncallback=1`)
         .then(response => this.setState({
           photos: response.data.photos.photo,
-          query: query,
-          loading: false
+          query: query
         }))
         .catch(err => console.log(err));
       } else {
@@ -58,11 +57,11 @@ class App extends Component {
         // Lakes photo
         axios.get(`https://www.flickr.com/services/rest/?method=flickr.photos.search&api_key=${apiKey}&tags=lakes&per_page=24&extras=url_o&format=json&nojsoncallback=1`)
         .then(response => this.setState({
-          photoLake: response.data.photos.photo,
-          loading: false
+          photoLake: response.data.photos.photo
         }))
         .catch(err => console.log(err));
       }
+      setTimeout(() => this.setState({loading: false}), 500) // buffer
     }
     this.handleLoading = () => {
       this.setState({loading: true});
@@ -76,8 +75,12 @@ class App extends Component {
     if(this.props.location.pathname.includes('/search') && this.state.photos.length === 0) {
       this.setState({loading: true, query: query, path: path});
       this.handleApiCall(query);
+      while(this.state.photos.length !== 0){this.setState({loading: true})};
+      return;
     } 
-    setTimeout(this.handleApiCall, 50);
+    if(this.state.loading){
+      this.handleApiCall();
+    }
   }
 
   render() {
@@ -92,16 +95,16 @@ class App extends Component {
           <Switch>
             <Route exact path="/" render={() => <Redirect to="/sunset" />}></Route>
             <Route path="/sunset" component={() => 
-              <Gallery photos={this.state.photoSunset} />
+              <Gallery photos={this.state.photoSunset} loading={this.state.loading} />
             }></Route>
             <Route path="/dogs" component={() =>
-              <Gallery photos={this.state.photoDog} />
+              <Gallery photos={this.state.photoDog} loading={this.state.loading} />
             }></Route>
             <Route path="/lake" component={() => 
-              <Gallery photos={this.state.photoLake} />
+              <Gallery photos={this.state.photoLake} loading={this.state.loading} />
             }></Route>
             <Route path="/search/:query" component={() => 
-              <Gallery photos={this.state.photos} />
+              <Gallery photos={this.state.photos} loading={this.state.loading} />
             }></Route>
             <Route component={NotFound} />
           </Switch>
