@@ -86,7 +86,6 @@ class App extends Component {
     if(this.props.location.pathname.includes('/search') && this.state.photos.length === 0) {
       this.setState({loading: true, query: query, path: path});
       this.handleApiCall(query);
-      while(this.state.photos.length !== 0){this.setState({loading: true})};
       return;
     } 
     if(this.state.loading){
