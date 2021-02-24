@@ -1,9 +1,10 @@
 import React, { Component } from 'react'
+import { withRouter } from 'react-router'
 
 class Search extends Component {
-
   constructor() {
     super();
+    let path
     this.state = {
       query: ''
     }
@@ -14,11 +15,20 @@ class Search extends Component {
     }
     this.makeApiCall = (e) => {
       e.preventDefault();
-      let path = `/search/${this.state.query}`
+      path = `/search/${this.state.query}`
       this.props.callApi(this.state.query);
       this.props.history.push(path);
+      e.currentTarget.reset();
     }
   }
+
+  componentDidUpdate(prevProps) {
+    if(this.props.location.pathname !== prevProps.location.pathname){
+      this.props.callApi(this.props.location.pathname.replace("/search/",''));
+    }
+  }
+
+  
 
   render() {
     return (
@@ -35,4 +45,4 @@ class Search extends Component {
   }
 }
 
-export default Search;
+export default withRouter(Search);

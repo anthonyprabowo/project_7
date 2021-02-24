@@ -1,13 +1,12 @@
 import React from 'react';
 import Photo from './Photo';
+import {withRouter} from 'react-router'
 
 const Gallery = (props) => {
   const data = props.photos
   let photos;
   if(data.length > 0) {
-    
     photos = data.map(photo => {
-      console.log(photo);
       return <Photo 
                 photo={photo}
                 key={photo.id} />
@@ -24,4 +23,4 @@ const Gallery = (props) => {
   
 }
 
-export default Gallery;
+export default withRouter(Gallery);
