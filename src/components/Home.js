@@ -3,6 +3,7 @@ import {withRouter} from 'react-router';
 
 const Home = (props) => {
   const path = props.location.pathname.replace('/', '');
+
   return(
     <div>
       <h2>Welcome to Anthony's Photo Gallery</h2>

@@ -1,6 +1,7 @@
 import React from 'react';
 import Photo from './Photo';
 import {withRouter} from 'react-router'
+import NoPhotos from './NoPhotos'
 
 const Gallery = (props) => {
   const data = props.photos
@@ -11,6 +12,8 @@ const Gallery = (props) => {
                 photo={photo}
                 key={photo.id} />
     });
+  } else {
+    photos = <NoPhotos />
   }
 
   return (

@@ -17,6 +17,7 @@ class Search extends Component {
       e.preventDefault();
       path = `/search/${this.state.query}`
       this.props.callApi(this.state.query);
+      this.props.handleLoading();
       this.props.history.push(path);
       e.currentTarget.reset();
     }
